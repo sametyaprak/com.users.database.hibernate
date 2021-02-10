@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+
+    <bean id="userDetails" class="project1.UserDetails" autowire="byName">
+        <property name="userName" value="ozlem"/>
+        <property name="userSirname" value="yaprak"/>
+        <property name="userBooks">
+            <list>
+                <ref bean="userBooks1"/>
+                <ref bean="userBooks2"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="adress" class="project1.Adress">
+        <property name="street" value="weingarden"/>
+        <property name="city" value="berlin"/>
+        <property name="country" value="almanya"/>
+    </bean>
+
+    <bean id="workAdress" class="project1.Adress" >
+        <property name="street" value="blauGarten"/>
+        <property name="city" value="paris"/>
+        <property name="country" value="france"/>
+    </bean>
+
+            <bean id="userBooks1" class="project1.Book" >
+                <property name="autor" value="sait faik"/>
+                <property name="bookName" value="almanyada hayat"/>
+                <property name="totalPages" value="159"/>
+            </bean>
+            <bean id="userBooks2" class="project1.Book">
+                <property name="autor" value="yazar2"/>
+                <property name="bookName" value="turkiye"/>
+                <property name="totalPages" value="225"/>
+            </bean>
+
+</beans>
