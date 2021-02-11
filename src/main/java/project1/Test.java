@@ -16,16 +16,28 @@ public class Test {
 
         ConfigurableApplicationContext applicationContext2 = new ClassPathXmlApplicationContext("sprintFrameworkBean.xml");
         UserDetails userDetails = (UserDetails) applicationContext2.getBean("userDetails");
+        Family famiy = (Family) applicationContext2.getBean("family");
+        Child child = (Child) applicationContext2.getBean("child");
+        Laptop laptop = (Laptop) applicationContext2.getBean("laptops");
 
 
-        Configuration conf = new Configuration().configure().addAnnotatedClass(UserDetails.class);
+        Configuration conf = new Configuration().configure().addAnnotatedClass(UserDetails.class)
+                                                            .addAnnotatedClass(Family.class)
+                                                            .addAnnotatedClass(Laptop.class)
+                                                            .addAnnotatedClass(Child.class);
         ServiceRegistry reg = new ServiceRegistryBuilder().applySettings(conf.getProperties()).buildServiceRegistry();
         SessionFactory sessionFactory = conf.buildSessionFactory(reg);
         Session session = sessionFactory.openSession();
 
 
+
+
         Transaction tx = session.beginTransaction();
+
         session.save(userDetails);
+        session.save(famiy);
+        //session.save(laptop);
+        //child kaydedilmedi
         tx.commit();
         session.close();
 
@@ -40,6 +52,14 @@ public class Test {
 //            @GeneratedValue ekleyince get UserId null oluyor.
 //            System.out.println("user ID" + userObject.getUserId());
 //            System.out.println("user name: " + userObject.getUserName());
+
+        //fetch lazy operations bean konusu ile calisilmalı..hata vermeden calisiyor
+//        session = sessionFactory.openSession();
+//        userDetails = (UserDetails) session.get(UserDetails.class,1);
+//        session.close();
+//        System.out.println(userDetails.getAdress().getCity());
+//        System.out.println(userDetails.getWorkAdress().getCity());
+//        System.out.println(userDetails.getUserName());
 
 
 

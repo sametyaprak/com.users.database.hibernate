@@ -7,7 +7,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity(name = "my_first_database")
+@Entity(name = "user_details")
 public class UserDetails {
     //primary key ekledik ve bu primarykey otomatik olarak eklensin istedik
     @Id
@@ -41,7 +41,43 @@ public class UserDetails {
     @CollectionId(columns = {@Column(name = "bookID")}, type = @Type(type = "long"), generator = "hilo-gen")
     private List<Book> userBooks = new ArrayList<>();
 
-    
+    @OneToOne
+    @JoinColumn(name = "family")
+    private Family family;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(joinColumns = @JoinColumn(name = "childId"),
+                inverseJoinColumns = @JoinColumn(name = "userId"))
+    private Collection<Child> child = new ArrayList<>();
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Collection<Laptop> laptops = new ArrayList<>();
+
+    public Collection<Laptop> getLaptops() {
+        return laptops;
+    }
+
+    public void setLaptops(Collection<Laptop> laptops) {
+        this.laptops = laptops;
+    }
+
+    public Collection<Child> getChild() {
+        return child;
+    }
+
+    public void setChild(Collection<Child> child) {
+        this.child = child;
+    }
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
+    }
+
     public Collection<Book> getUserBooks() {
         return userBooks;
     }
